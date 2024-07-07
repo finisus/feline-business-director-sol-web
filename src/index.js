@@ -113,4 +113,26 @@ document.addEventListener('DOMContentLoaded', function() {
   chartBtn.addEventListener('click', () => window.open("https://dexscreener.com/solana/Ev6Pq1F5hxXcFVAyKdisWMLfHgvGzCNpL4G1xBaNFhNr", "_blank"));
   buyBtn.addEventListener('click', () => window.open("https://raydium.io/swap?outputMint=J1HzSWXGdebYKQoEA4qCtaimYpWiSpSPvhuUnxXdpump", "_blank"));
 
+  const textToCopy = contract.innerHTML;
+  contractCopyBtn.addEventListener("click", async () => {
+    try {
+      // Try the modern Clipboard API first (if supported)
+      await navigator.clipboard.writeText(textToCopy);
+      console.log("Text copied successfully using Clipboard API");
+      alert("Contract copied successfully!");
+    } catch (err) {
+      // If Clipboard API fails, use the legacy approach
+      const textArea = document.createElement("textarea");
+      textArea.value = textToCopy;
+      textArea.style.position = "fixed"; // Hide element off-screen
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      console.log("Text copied successfully using legacy approach");
+      alert("Contract copied successfully!");
+    }
+  });
+
 });
